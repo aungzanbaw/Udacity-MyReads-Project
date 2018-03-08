@@ -1,4 +1,9 @@
 {
+  "name": "myreads-udacity",
+  "version": "1.0.0",
+  "description": "The final assessment project for Udacity's React Fundamentals course",
+  "author": "aung zan baw",
+  "license": "ISC",
   "dependencies": {
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
