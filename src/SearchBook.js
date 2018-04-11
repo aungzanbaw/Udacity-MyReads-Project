@@ -1,69 +1,55 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import serializeForm from 'form-serialize'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
+// import serializeForm from 'form-serialize'
+// import escapeRegExp from 'escape-string-regexp'
+// import sortBy from 'sort-by'
 import  * as BooksAPI from './BooksAPI'
 import Book from './Book'
+import _ from 'lodash'
 
 class SearchBook extends Component{
     state = {
         query: '',
         books: []
+    } 
+
+    clearQuery(){ 
+        this.setState({
+            query: "",
+            books: []
+        }) 
     }
     
-    componentDidMount(){
-        
-    }
-
-    updateQuery(query = ""){ 
-        if(query == "") return;
-        this.setState({ query: query })  
-        console.log(query)
-        BooksAPI.search(query,10)
-          .then(books => {
-            console.log(books)
-            this.setState({ books: books })
-          })
-    }
-
-    clearQuery(){
-
-    }
+    updateQuery(query){   
+        this.setState({ query }) 
+        if(query.trim() === ""){ 
+            this.clearQuery() 
+            return;
+        } 
+        BooksAPI.search(query)
+            .then(books => this.setState({
+                books
+            }))
+    } 
 
     render(){
-        // const { contacts, onDeleteContact } = this.props
-        // const { query } = this.state
-
-        // let showingContacts = []
-        // if (query) {
-        // const match = new RegExp(escapeRegExp(query, 'i'))
-        // showingContacts = contacts.filter((contact) => match.test(contact.name))
-        // } else {
-        // showingContacts = contacts
-        // }
-
-        // showingContacts.sort(sortBy('name'))
-        
+        const { query, books } = this.state    
         return(
             <div className="search-books">
                 <div className="search-books-bar"> 
                 <Link className="close-search" to="/">Close</Link>
-                <div className="search-books-input-wrapper"> 
-                    <input type="text" 
-                    value={ this.state.query }
-                    onChange={ e => this.updateQuery(e.target.value) }
-                    placeholder="Search by title or author"/>
-                </div>
+                    <div className="search-books-input-wrapper"> 
+                        <input type="text" 
+                            value={ query }
+                            onChange={ e => this.updateQuery(e.target.value)}
+                            placeholder="Search by title or author"/>
+                    </div>
                 </div>
                 <div className="search-books-results">
-                <ol className="books-grid">
-                {
-                    this.state.books 
-                        .map(book => (
-                            <Book key={book.id} book={ book } />
-                        ))
-                }
+                <ol className="books-grid"> 
+                {_.isArray(books) && books.length !== 0 && (
+                    books.map(book => (<Book key={book.id} book={ book } />)) 
+                )} 
                 </ol>
                 </div>
           </div>

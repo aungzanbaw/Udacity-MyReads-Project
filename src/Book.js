@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
-import Author from './Author';
+import PropTypes from 'prop-types'
+import Author from './Author'
+import _ from 'lodash'
 
 class Book extends Component {
     static propTypes = {
@@ -25,11 +26,11 @@ class Book extends Component {
                         </div>
                     </div>
                     <div className="book-title">{ book.title }</div>
-                    {
+                    {_.isArray(book) && book.length !== 0 && (
                         book.authors.map((author,i) =>(
                             <Author key={i} author={ author }/> 
                         ))
-                    }
+                    )}
                 </div>
             </li>
         )
