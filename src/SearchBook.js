@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-// import serializeForm from 'form-serialize'
-// import escapeRegExp from 'escape-string-regexp'
-// import sortBy from 'sort-by'
 import  * as BooksAPI from './BooksAPI'
 import Book from './Book'
 import _ from 'lodash'

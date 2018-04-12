@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import Book from './Book'
 
 class ListBook extends Component{
-
     static propTypes = {
-        books: PropTypes.array.isRequired
+        books: PropTypes.array.isRequired,
+        selectShelf: PropTypes.func.isRequired
     }
-
+    
     render(){
         const { books } = this.props
         return( 
@@ -26,7 +26,7 @@ class ListBook extends Component{
                                     books
                                         .filter(book => book.shelf === "currentlyReading")
                                         .map(book => (
-                                            <Book key={book.id} book={ book } />
+                                            <Book key={book.id} book={ book } selectShelf={ this.props.selectShelf }/>
                                         ))
                                 }
                             </ol>
@@ -40,7 +40,7 @@ class ListBook extends Component{
                                 books
                                     .filter(book => book.shelf === "wantToRead")
                                     .map(book => (
-                                        <Book key={book.id} book={ book } />
+                                        <Book key={book.id} book={ book } selectShelf={ this.props.selectShelf }/>
                                     ))
                             }
                             </ol>
@@ -54,7 +54,7 @@ class ListBook extends Component{
                                 books
                                     .filter(book => book.shelf === "read")
                                     .map(book => (
-                                        <Book key={book.id} book={ book } />
+                                        <Book key={book.id} book={ book } selectShelf={ this.props.selectShelf }/>
                                     ))
                             }
                             </ol>
