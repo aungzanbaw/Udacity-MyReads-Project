@@ -27,6 +27,16 @@ class SearchBook extends Component{
             .then(books => this.setState({ books }))
     } 
 
+    selectShelf = (Book, shelf) => {   
+		this.setState((state) => ({
+			books: state.books.map(book => {
+				if(book.id === Book.id) book.shelf = shelf; 
+				return book
+			})
+        })) 
+        BooksAPI.update(Book, shelf)  
+  	}
+
     render(){
         const { query, books } = this.state    
         return(
@@ -41,7 +51,7 @@ class SearchBook extends Component{
                     <ol className="books-grid"> 
                         { _.isArray(books) && 
                             books.length !== 0 && ( 
-                                books.map(book => ( <Book key={book.id} book={ book } /> )) 
+                                books.map(book => ( <Book key={book.id} book={ book } selectShelf={ this.selectShelf }/> )) 
                             )
                         } 
                     </ol>

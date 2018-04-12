@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Author from './Author'
 import _ from 'lodash'
-import * as BooksAPI from './BooksAPI'
 
 class Book extends Component {
     static propTypes = {
@@ -11,8 +10,7 @@ class Book extends Component {
     }
 
     selectChange(book, e){   
-        this.props.selectShelf(book.id, e.target.value)
-        BooksAPI.update(book, e.target.value)  
+        this.props.selectShelf(book, e.target.value)   
     }
 
     render(){
