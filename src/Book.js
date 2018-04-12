@@ -33,7 +33,11 @@ class Book extends Component {
                         </div>
                     </div>
                     <div className="book-title">{ book.title }</div>
-                    {_.isArray(book) && book.length !== 0 && ( book.authors.map((author,i) =>( <Author key={i} author={ author }/> )) )}
+                    { _.isArray(book) && 
+                        book.length !== 0 && ( 
+                            book.authors.map((author,i) =>( <Author key={i} author={ author }/> )) 
+                        )
+                    }
                 </div>
             </li>
         )
