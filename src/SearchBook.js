@@ -27,16 +27,6 @@ class SearchBook extends Component{
             .then(books => this.setState({ books }))
     } 
 
-    selectShelf = (Book, shelf) => {   
-		this.setState((state) => ({
-			books: state.books.map(book => {
-				if(book.id === Book.id) book.shelf = shelf; 
-				return book
-			})
-        })) 
-        BooksAPI.update(Book, shelf)  
-  	}
-
     render(){
         const { query, books } = this.state    
         return(
@@ -44,14 +34,14 @@ class SearchBook extends Component{
                 <div className="search-books-bar"> 
                 <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper"> 
-                        <input type="text" value={ query } onChange={e => this.updateQuery(e.target.value)} placeholder="Search by title or author"/>
+                        <input type="text" autoFocus value={ query } onChange={e => this.updateQuery(e.target.value)} placeholder="Search by title or author"/>
                     </div>
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid"> 
                         { _.isArray(books) && 
                             books.length !== 0 && ( 
-                                books.map(book => ( <Book key={book.id} book={ book } selectShelf={ this.selectShelf }/> )) 
+                                books.map(book => ( <Book key={book.id} book={ book } data-shelf={book.shelf} selectShelf={ this.props.selectShelf } /> )) 
                             )
                         } 
                     </ol>
