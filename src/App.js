@@ -17,14 +17,16 @@ class BooksApp extends React.Component {
 			})
 	}
 
-  	selectShelf = (Book, shelf) => {  
-		this.setState((state) => ({
-			books: state.books.map(book => {
-				if(book.id === Book.id) book.shelf = shelf; 
-				return book
-			})
-		}))
-		BooksAPI.update(Book, shelf)
+  	selectShelf = (book, shelf) => {  
+		BooksAPI.update(book, shelf)
+			.then(()=> {
+				this.setState((state) => ({
+					books: state.books.map(b => {
+						if(b.id === book.id) b.shelf = shelf; 
+						return b
+					})
+				}))
+			}) 
 	}
 	
 	updateShelf = (Book, shelf) => {   
@@ -35,7 +37,7 @@ class BooksApp extends React.Component {
 				return book
 			})
 		}))
-		
+	
 		if(!this.state.books.some(b => b.id === Book.id)){
 			this.setState((state) => ({
 				books: state.books.concat(Book)
