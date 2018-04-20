@@ -14,12 +14,20 @@ class Book extends Component {
     }
 
     render(){
-        const { book } = this.props
+        try{ 
+        const { book } = this.props 
+        let thumbnail
+        if(_.has(book, 'imageLinks')){
+            thumbnail = book.imageLinks.smallThumbnail
+        }else{
+            thumbnail = "placeholder.png"
+        } 
+        console.log(book.shelf)
         return(
             <li> 
                 <div className="book">
-                    <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.smallThumbnail}")` }}></div>
+                    <div className="book-top"> 
+                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${ thumbnail }")` }}></div>
                         <div className="book-shelf-changer">
                         <select onChange={ e => this.selectChange(book, e) } value={ book.shelf || "none"}>
                             <option value="none" disabled>Move to...</option>
@@ -36,9 +44,12 @@ class Book extends Component {
                             book.authors.map((author,i) =>( <Author key={i} author={ author }/> )) 
                         )
                     }
-                </div> 
+                </div>   
             </li>
         )
+        }catch(e){
+            console.log(e,this.props.book)
+        }
     }
 }
 
