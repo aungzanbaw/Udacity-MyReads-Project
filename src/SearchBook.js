@@ -7,12 +7,16 @@ import _ from 'lodash'
 class SearchBook extends Component{
     state = {
         query: '',
-        books: []
+        books: [],
+        myBooks: []
     } 
     
-    clearQuery(){
-        
-    }
+    componentDidMount(){
+		BooksAPI.getAll()
+			.then(books => {
+				this.setState({ myBooks: books })
+			})
+	}
 
     updateQuery(query){   
         this.setState({ query }) 
@@ -25,9 +29,21 @@ class SearchBook extends Component{
         }
         BooksAPI.search(_.upperFirst(query.trim()))
             .then(books => {
-                this.setState({ books }) 
-            })
-            // .catch(e => console.log(e))   
+                    if(!_.isEmpty(books) || !_.isUndefined(books))
+                        Object.keys(books).map(book => { 
+                            if(!_.has(books,"error")) books[book].shelf = 'none'
+                            Object.keys(this.state.myBooks).map(mybook => {
+                                if(this.state.myBooks[mybook].id === books[book].id){
+                                    books[book].shelf = this.state.myBooks[mybook].shelf
+                                    // console.log(this.state.myBooks[mybook].shelf)
+                                    return mybook
+                                } 
+                                return mybook
+                            }) 
+                            return book
+                        })  
+                this.setState({ books })
+            }) 
     } 
 
     render(){
@@ -52,7 +68,7 @@ class SearchBook extends Component{
                             ) 
                         }
                         {
-                            !_.has(books,"error") && !_.isEmpty(books) && Object.keys(books).map(key => <Book key={books[key].id} book={ books[key] } data-shelf={books[key].shelf} selectShelf={ this.props.selectShelf } />)
+                            !_.has(books,"error") && !_.isEmpty(books) && Object.keys(books).map(key => <Book key={books[key].id} book={ books[key] } shelf={books[key].shelf} selectShelf={ this.props.selectShelf } /> )
                         } 
                     </ol>
                 </div>
