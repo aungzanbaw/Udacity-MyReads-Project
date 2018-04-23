@@ -22,7 +22,8 @@ class Book extends Component {
                         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${ _.has(book, 'imageLinks')? book.imageLinks.smallThumbnail : "placeholder.png" }")` }}></div>
                         <div className="book-shelf-changer">
                         <select onChange={ e => this.selectChange(book, e) } value={ book.shelf }>
-                            <option value="none" disabled>Move to...</option>
+                        {console.log(book.shelf)}
+                            <option disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>

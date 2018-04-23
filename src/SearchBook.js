@@ -31,15 +31,16 @@ class SearchBook extends Component{
             .then(books => {
                     if(!_.isEmpty(books) || !_.isUndefined(books))
                         Object.keys(books).map(book => { 
-                            if(!_.has(books,"error")) books[book].shelf = 'none'
-                            Object.keys(this.state.myBooks).map(mybook => {
-                                if(this.state.myBooks[mybook].id === books[book].id){
-                                    books[book].shelf = this.state.myBooks[mybook].shelf
-                                    // console.log(this.state.myBooks[mybook].shelf)
+                            if(!_.has(books,"error")) {  
+                                books[book].shelf = 'none' 
+                                Object.keys(this.state.myBooks).map(mybook => {
+                                    if(this.state.myBooks[mybook].id === books[book].id){
+                                        books[book].shelf = this.state.myBooks[mybook].shelf  
+                                        return mybook
+                                    } 
                                     return mybook
-                                } 
-                                return mybook
-                            }) 
+                                })
+                            } 
                             return book
                         })  
                 this.setState({ books })
